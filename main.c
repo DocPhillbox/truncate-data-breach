@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 
-char *filename = "data-breach.txt";
-char user_out_filename[100] = "user-";
-char pass_out_filename[100] = "pass-";
-char *seperator = ":;";
+char filename[255];
+char destination_folder[255];
+char user_out_filename[255] = "user-";
+char pass_out_filename[255] = "pass-";
+char seperator[255];
 
 void write_user(char *user, FILE *user_file) {
     fprintf(user_file, strcat(user, "\n"));
@@ -25,6 +26,17 @@ int main() {
     FILE *breach_file;
     const long line_size = 255;
     char line[line_size];
+
+    printf("Enter the filename to split: ");
+    gets(filename);
+    printf("Enter destination folder: ");
+    gets(destination_folder);
+    printf("Enter separator (default: :;): ");
+    gets(seperator);
+    if (seperator[0] == NULL) {
+        printf("okkdhfruhjbr");
+        strcpy(seperator, ":;");
+    }
 
     strcat(user_out_filename, filename);
     strcat(pass_out_filename, filename);
