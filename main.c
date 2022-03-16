@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 
-char filename[255];
-char destination_folder[255];
-char user_out_filename[255] = "user-";
-char pass_out_filename[255] = "pass-";
-char seperator[255];
+#define MAX_BUFFER 255
+
+char filename[MAX_BUFFER];
+char destination_folder[MAX_BUFFER];
+char user_out_filename[MAX_BUFFER] = "user-";
+char pass_out_filename[MAX_BUFFER] = "pass-";
+char seperator[MAX_BUFFER];
 
 void write_user(char *user, FILE *user_file) {
     fprintf(user_file, strcat(user, "\n"));
@@ -24,20 +26,18 @@ char *split_line_and_truncate(char *line, FILE *user_file, FILE *pass_file) {
 
 int main() {
     FILE *breach_file;
-    const long line_size = 255;
-    char line[line_size];
+    char line[MAX_BUFFER];
 
     printf("Enter the filename to split: ");
-    gets(filename);
-    printf("Enter destination folder: ");
-    gets(destination_folder);
-    printf("Enter separator (default: :;): ");
-    gets(seperator);
-    if (seperator[0] == NULL) {
-        printf("okkdhfruhjbr");
+    if (strlen(fgets(filename, MAX_BUFFER, stdin)) == 1)
+        return 0;
+    printf("Enter the seperator (default :;)");
+    if (strlen(fgets(seperator, MAX_BUFFER, stdin)) == 1)
         strcpy(seperator, ":;");
-    }
-
+    
+    filename[strcspn(filename, "\n")] = 0;
+    seperator[strcspn(seperator, "\n")] = 0;
+    
     strcat(user_out_filename, filename);
     strcat(pass_out_filename, filename);
 
@@ -53,7 +53,7 @@ int main() {
     FILE *user_file = fopen(user_out_filename, "a");
     FILE *pass_file = fopen(pass_out_filename, "a");
 
-    while (fgets(line, line_size, breach_file) != NULL) {
+    while (fgets(line, MAX_BUFFER, breach_file) != NULL) {
         split_line_and_truncate(line, user_file, pass_file);
     }
 
