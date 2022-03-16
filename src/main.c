@@ -76,6 +76,7 @@ int main() {
 
     fclose(user_file);
     fclose(pass_file);
+    fclose(breach_file);
     
     return 0;
 }
